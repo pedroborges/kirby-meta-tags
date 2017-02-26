@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a17c5255102b1c06aea17ebe15442296",
+    "packages": [
+        {
+            "name": "chriskonnertz/open-graph",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chriskonnertz/open-graph.git",
+                "reference": "cbb95125be811acb9ccd0305681092e82d254632"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chriskonnertz/open-graph/zipball/cbb95125be811acb9ccd0305681092e82d254632",
+                "reference": "cbb95125be811acb9ccd0305681092e82d254632",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.7"
+            },
+            "require-dev": {
+                "nesbot/carbon": "~1.14"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ChrisKonnertz\\OpenGraph": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Konnertz"
+                }
+            ],
+            "description": "Class that assists in building Open Graph meta tags",
+            "keywords": [
+                "laravel",
+                "laravel4",
+                "laravel5",
+                "open graph",
+                "opengraph"
+            ],
+            "time": "2016-05-11T12:16:35+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

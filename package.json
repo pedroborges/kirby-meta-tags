@@ -1,0 +1,8 @@
+{
+  "name": "open-graph",
+  "author": "Pedro Borges <oi@pedroborg.es>",
+  "version": "1.0.0-alpha",
+  "description": "Kirby Open Graph",
+  "type": "kirby-plugin",
+  "license": "MIT"
+}

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "chriskonnertz/open-graph": "^1.0"
+    }
+}
