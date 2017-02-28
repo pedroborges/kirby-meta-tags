@@ -1,0 +1,20 @@
+{
+    "name": "pedroborges/meta-tags",
+    "description": "",
+    "license": "MIT",
+    "keywords": ["head", "seo", "meta", "meta tags", "Open Graph", "Facebook", "Twitter Cards"],
+    "authors": [
+        {
+            "name": "Pedro Borges",
+            "email": "oi@pedroborg.es"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PedroBorges\\MetaTags\\": "src"
+        }
+    }
+}

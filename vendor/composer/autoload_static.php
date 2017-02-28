@@ -4,22 +4,32 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitcf01207af6e29b7b2fa627a56709c040
+class ComposerStaticInite3084090164c1ad91c9ff543e9c5fc3c
 {
-    public static $prefixesPsr0 = array (
-        'C' => 
+    public static $prefixLengthsPsr4 = array (
+        'P' => 
         array (
-            'ChrisKonnertz\\OpenGraph' => 
-            array (
-                0 => __DIR__ . '/..' . '/chriskonnertz/open-graph/src',
-            ),
+            'PedroBorges\\MetaTags\\' => 21,
         ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'PedroBorges\\MetaTags\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pedroborges/meta-tags/src',
+        ),
+    );
+
+    public static $classMap = array (
+        'MetaTags' => __DIR__ . '/../..' . '/src/MetaTags.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInitcf01207af6e29b7b2fa627a56709c040::$prefixesPsr0;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite3084090164c1ad91c9ff543e9c5fc3c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite3084090164c1ad91c9ff543e9c5fc3c::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite3084090164c1ad91c9ff543e9c5fc3c::$classMap;
 
         }, null, ClassLoader::class);
     }

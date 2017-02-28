@@ -1,31 +1,28 @@
 [
     {
-        "name": "chriskonnertz/open-graph",
-        "version": "v1.0.3",
-        "version_normalized": "1.0.3.0",
+        "name": "pedroborges/meta-tags",
+        "version": "v0.0.1",
+        "version_normalized": "0.0.1.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/chriskonnertz/open-graph.git",
-            "reference": "cbb95125be811acb9ccd0305681092e82d254632"
+            "url": "https://github.com/pedroborges/meta-tags.git",
+            "reference": "6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/chriskonnertz/open-graph/zipball/cbb95125be811acb9ccd0305681092e82d254632",
-            "reference": "cbb95125be811acb9ccd0305681092e82d254632",
+            "url": "https://api.github.com/repos/pedroborges/meta-tags/zipball/6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7",
+            "reference": "6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7",
             "shasum": ""
         },
-        "require": {
-            "php": ">=5.3.7"
-        },
         "require-dev": {
-            "nesbot/carbon": "~1.14"
+            "phpunit/phpunit": "^5.7.0"
         },
-        "time": "2016-05-11T12:16:35+00:00",
+        "time": "2017-02-28T14:40:48+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
-            "psr-0": {
-                "ChrisKonnertz\\OpenGraph": "src/"
+            "psr-4": {
+                "PedroBorges\\MetaTags\\": "src"
             }
         },
         "notification-url": "https://packagist.org/downloads/",
@@ -34,16 +31,18 @@
         ],
         "authors": [
             {
-                "name": "Chris Konnertz"
+                "name": "Pedro Borges",
+                "email": "oi@pedroborg.es"
             }
         ],
-        "description": "Class that assists in building Open Graph meta tags",
         "keywords": [
-            "laravel",
-            "laravel4",
-            "laravel5",
+            "facebook",
+            "head",
+            "meta",
+            "meta tags",
             "open graph",
-            "opengraph"
+            "seo",
+            "twitter cards"
         ]
     }
 ]

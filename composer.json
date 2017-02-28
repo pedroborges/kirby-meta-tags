@@ -1,5 +1,10 @@
 {
+    "autoload": {
+        "classmap": [
+            "src"
+        ]
+    },
     "require": {
-        "chriskonnertz/open-graph": "^1.0"
+        "pedroborges/meta-tags": "^0.0.1"
     }
 }

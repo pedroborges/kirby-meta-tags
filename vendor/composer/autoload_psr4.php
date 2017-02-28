@@ -6,4 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'PedroBorges\\MetaTags\\' => array($vendorDir . '/pedroborges/meta-tags/src'),
 );

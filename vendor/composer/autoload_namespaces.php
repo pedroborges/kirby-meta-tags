@@ -6,5 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ChrisKonnertz\\OpenGraph' => array($vendorDir . '/chriskonnertz/open-graph/src'),
 );

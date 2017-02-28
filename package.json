@@ -1,8 +1,8 @@
 {
-  "name": "open-graph",
+  "name": "meta-tags",
   "author": "Pedro Borges <oi@pedroborg.es>",
-  "version": "1.0.0-alpha",
-  "description": "Kirby Open Graph",
+  "version": "1.0.0-beta",
+  "description": "Kirby Meta Tags",
   "type": "kirby-plugin",
   "license": "MIT"
 }
