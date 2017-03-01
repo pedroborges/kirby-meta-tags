@@ -108,6 +108,7 @@ Both the `meta-tags.default` and `meta-tags.templates` accept similar values:
 ### `meta-tags.default`
 It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter` which I call [tags groups](#tags-groups). With the exception of `title`, you should pass an array of key-value pairs to all other groups. [See below](#tags-groups) which value types each key accepts.
 
+```php
 c::set('meta-tags.default', [
     'title' => 'My Site Name',
     'meta' => [ /* meta tags */ ],
@@ -128,7 +129,7 @@ c::set('meta-tags.templates', [
 ]);
 ```
 
-When a template key matches the current page's template name, it is merged and overrides any repeating properties defined on the `meta-tags.templates` option so you don't have to repeat yourself.
+When a template key matches the current page's template name, it is merged and overrides any repeating properties defined on the `meta-tags.default` option so you don't have to repeat yourself.
 
 ## Tags Groups
 These groups can take a string, closure, or array as value. Being so flexible, the sky is the limit to what you can with Meta Tags!
