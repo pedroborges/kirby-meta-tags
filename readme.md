@@ -65,13 +65,17 @@ c::set('meta-tags.default', [
         'description' => site()->description()
     ],
     'link' => [
-        'canonical' => page()->url()
+        'canonical' => function($page) { return $page->url(); }
     ],
     'og' => [
-        'title' => page()->title(),
+        'title' => function($page) {
+            return $page->isHomePage()
+                    ? site()->title()
+                    : $page->title();
+        },
         'type' => 'website',
         'site_name' => site()->title(),
-        'url' => page()->url()
+        'url' => function($page) { return $page->url(); }
     ]
 ]);
 ```
@@ -88,9 +92,13 @@ c::set('meta-tags.templates', [
     'song' => [
         'og' => [
             'type' => 'music.song',
-            'music:duration' => page()->duration(),
-            'music:album' => page()->parent()->url(),
-            'music:musician' => page()->singer()
+            'namespace:music' => function($page) {
+                return [
+                    'duration' => $page->duration(),
+                    'album' => $page->parent()->url(),
+                    'musician' => $page->singer()
+                ];
+            }
         ]
     ],
 ]);
@@ -142,13 +150,11 @@ Corresponds to the HTML `<title>` element and accepts a `string` as value. You c
 ```
 
 ```php
-'title' => page()->isHomePage() ? site()->title() : page()->title(),
-```
-
-```php
 'title' => function($page) {
-    return $page->title() . ' - ' . $page->author();
-},
+    return $page->isHomePage()
+            ? site()->title()
+            : $page->title();
+}
 ```
 
 ### `meta`
@@ -178,10 +184,10 @@ This tags group is used to render HTML `<link>` element. It takes an `array` of 
 'link' => [
     'stylesheet' => url('assets/css/main.css'),
     'icon' => [
-      ['href' => '/favicon-62.png', 'sizes' => '62x62', 'type' =>'image/png'],
-      ['href' => '/favicon-192.png', 'sizes' => '192x192', 'type' =>'image/png']
+      ['href' => url('favicon-62.png'), 'sizes' => '62x62', 'type' =>'image/png'],
+      ['href' => url('favicon-192.png'), 'sizes' => '192x192', 'type' =>'image/png']
     ],
-    'canonical' => $page->url(),
+    'canonical' => function($page) { return $page->url(); },
     'alternate' => function($page) {
         $locales = [];
 
@@ -190,7 +196,7 @@ This tags group is used to render HTML `<link>` element. It takes an `array` of 
 
             $locales[] = [
                 'hreflang' => $language->code(),
-                'href' => $language->url()
+                'href' => $page->url($language->code())
             ];
         }
 
@@ -218,10 +224,10 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 
 ```php
 'og' => [
-    'title' => page()->title(),
+    'title' => function($page) { return $page->title(); },
     'type' => 'website',
     'site_name' => site()->title(),
-    'url' => page()->url()
+    'url' => function($page) { return $page->url(); }
 ],
 ```
 
@@ -253,14 +259,13 @@ c::set('meta-tags.templates', [
                 ];
             },
             'namespace:image' => function($page) {
-                $file = $page->cover();
-                $image = $file->url();
+                $image = $page->cover()->toFile();
 
                 return [
-                    'image' => $image,
-                    'width' => $file->width(),
-                    'height' => $file->height(),
-                    'type' => $file->mime(),
+                    'image' => $image->url(),
+                    'height' => $image->height(),
+                    'width' => $image->width(),
+                    'type' => $image->mime()
                 ];
             }
         ]
@@ -305,9 +310,9 @@ This tags group works just like the previous one, but it generates `<meta>` tags
 'twitter' => [
     'card' => 'summary',
     'site' => site()->twitter(),
-    'title' => page()->title(),
+    'title' => function($page) { return $page->title(); },
     'namespace:image' => function($page) {
-        $image = $page->cover();
+        $image = $page->cover()->toFile();
 
         return [
             'image' => $image->url(),
