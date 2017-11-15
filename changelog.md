@@ -1,6 +1,60 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.0.0] - 2017-11-15
+The previous version has been stable enough and no issue has been reported in 8 months :smiley:
+
+I finally got time to make some improvements and update the documentation so it's time to release [v1.0.0](https://github.com/pedroborges/kirby-meta-tags/tree/v1.0.0).
+
+### Changed
+- Options `meta-tags.default` and `meta-tags.templates` can now return a `closure` which receives `$page` and `$site` as arguments:
+
+    ```php
+    c::set('meta-tags.default', function(Page $page, Site $site) {
+        return [
+            'title' => $site->title(),
+            'meta' => [
+                'description' => $site->description()
+            ],
+            'link' => [
+                'canonical' => $page->url()
+            ],
+            'og' => [
+                'title' => $page->isHomePage()
+                    ? $site->title()
+                    : $page->title(),
+                'type' => 'website',
+                'site_name' => $site->title(),
+                'url' => $page->url()
+            ]
+        ];
+    });
+    ```
+
+- Closures in other places now receive `$site` and second argument as well:
+
+    ```php
+    'link' => [
+        'canonical' => $page->url(),
+        'alternate' => function(Page $page, Site $site) {
+            $locales = [];
+
+            foreach ($site->languages() as $language) {
+                if ($language->isDefault()) continue;
+
+                $locales[] = [
+                    'hreflang' => $language->code(),
+                    'href' => $page->url($language->code())
+                ];
+            }
+
+            return $locales;
+        }
+    ],
+    ```
+
+Besides offering a better workflow, these changes also help avoid an issue where `site()` can't be called outside a closure from the config file in multi-language websites, as reported at getkirby/kirby#606.
+
 ## [1.0.0-beta] - 2017-03-01
 The plugin has gone under heavy refactor and is no longer focused only on Open Graph. For that reason the name has changed from Open Graph to Meta Tags.
 
