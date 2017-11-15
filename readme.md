@@ -42,7 +42,7 @@ Updating is as easy as running a few commands.
 </p></details>
 
 ## Basic Usage
-After installing the Meta Tags plugin, you will need to add one line to the `head` element on your template, or `header.php` snippet:
+After installing the Meta Tags plugin, you need to add one line to the `head` element on your template, or `header.php` snippet:
 
 ```diff
 <html>
@@ -52,35 +52,33 @@ After installing the Meta Tags plugin, you will need to add one line to the `hea
 +    <?php echo $page->metaTags() ?>
 ```
 
-> If you are using Open Graph tags, you may want to add the `prefix` attribute to the `html` element as suggested on [their docs](http://ogp.me/#metadata): `<html prefix="og: http://ogp.me/ns#">`
-
 ### Default
 
 The plugin ships with some default meta tags enabled for your convenience:
 
 ```php
-c::set('meta-tags.default', [
-    'title' => site()->title(),
-    'meta' => [
-        'description' => site()->description()
-    ],
-    'link' => [
-        'canonical' => function($page) { return $page->url(); }
-    ],
-    'og' => [
-        'title' => function($page) {
-            return $page->isHomePage()
-                    ? site()->title()
-                    : $page->title();
-        },
-        'type' => 'website',
-        'site_name' => site()->title(),
-        'url' => function($page) { return $page->url(); }
-    ]
-]);
+c::set('meta-tags.default', function(Page $page, Site $site) {
+    return [
+        'title' => $site->title(),
+        'meta' => [
+            'description' => $site->description()
+        ],
+        'link' => [
+            'canonical' => $page->url()
+        ],
+        'og' => [
+            'title' => $page->isHomePage()
+                ? $site->title()
+                : $page->title(),
+            'type' => 'website',
+            'site_name' => $site->title(),
+            'url' => $page->url()
+        ]
+    ];
+});
 ```
 
-**The `meta-tags.default` option is applied to all pages on your Kirby site.** Of course you can and I encourage you to change these defaults. In order to do that, you just need to copy this example to your `site/config/config.php` and tweak it to fit your needs.
+**The `meta-tags.default` option is applied to all pages on your Kirby site.** Of course you can change the defaults. In order to do that, just copy this example to your `site/config/config.php` file and tweak it to fit your website needs.
 
 > If your configuration file grows too much, you can extract it to a `site/config/meta-tags.php` file, for example, and require it from `site/config/config.php`.
 
@@ -88,21 +86,23 @@ c::set('meta-tags.default', [
 Following the flexible spirit of Kirby, you also have the option to add template specific meta tags:
 
 ```php
-c::set('meta-tags.templates', [
-    'song' => [
-        'og' => [
-            'type' => 'music.song',
-            'namespace:music' => function($page) {
-                return [
+c::set('meta-tags.templates', function(Page $page, Site $site) {
+    return [
+        'song' => [
+            'og' => [
+                'type' => 'music.song',
+                'namespace:music' => [
                     'duration' => $page->duration(),
                     'album' => $page->parent()->url(),
-                    'musician' => $page->singer()
-                ];
-            }
+                    'musician' => $page->singer()->html()
+                ]
+            ]
         ]
-    ],
-]);
+    ];
+});
 ```
+
+In the example above, those settings will only be applied to pages which template is `song`.
 
 For more information on all the `meta`, `link`, Open Graph and Twitter Card tags available, check out these resources:
 
@@ -114,11 +114,11 @@ For more information on all the `meta`, `link`, Open Graph and Twitter Card tags
 Both the `meta-tags.default` and `meta-tags.templates` accept similar values:
 
 ### `meta-tags.default`
-It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter` which I call [tags groups](#tags-groups). With the exception of `title`, you should pass an array of key-value pairs to all other groups. [See below](#tags-groups) which value types each key accepts.
+It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter`. With the exception of `title`, all other groups must return an array of key-value pairs. Check out the [tag groups](#tag-groups) section to learn which value types are accepted by each key.
 
 ```php
 c::set('meta-tags.default', [
-    'title' => 'My Site Name',
+    'title' => 'Site Name',
     'meta' => [ /* meta tags */ ],
     'link' => [ /* link tags */ ],
     'og' => [ /* Open Graph tags */ ],
@@ -127,7 +127,7 @@ c::set('meta-tags.default', [
 ```
 
 ### `meta-tags.templates`
-It allows you to define a template specific set of meta tags. It takes an array where each key corresponds to the template name.
+This option allows you to define a template specific set of meta tags. It must return an array where each key corresponds to the template name you are targeting.
 
 ```php
 c::set('meta-tags.templates', [
@@ -137,32 +137,28 @@ c::set('meta-tags.templates', [
 ]);
 ```
 
-When a template key matches the current page's template name, it is merged and overrides any repeating properties defined on the `meta-tags.default` option so you don't have to repeat yourself.
+When a key matches the current page template name, it is merged and overrides any repeating properties defined on the `meta-tags.default` option so you don't have to repeat yourself.
 
-## Tags Groups
-These groups can take a string, closure, or array as value. Being so flexible, the sky is the limit to what you can with Meta Tags!
+## Tag Groups
+These groups accept string, closure, or array as their values. Being so flexible, the sky is the limit to what you can do with Meta Tags!
 
 ### `title`
-Corresponds to the HTML `<title>` element and accepts a `string` as value. You can also use a `closure` that returns a `string`.
+Corresponds to the HTML `<title>` element and accepts a `string` as value.
 
 ```php
-'title' => site()->title()
+'title' => $page->isHomePage()
+    ? $site->title()
+    : $page->title(),
 ```
 
-```php
-'title' => function($page) {
-    return $page->isHomePage()
-            ? site()->title()
-            : $page->title();
-}
-```
+> You can also pass it a `closure` that returns a `string` if the logic to generate the `title` is more complex.
 
 ### `meta`
-The right place to place any generic HTML `<meta>` elements. It takes an `array` of key-value pairs. The value can be a `string` or `closure`.
+The right place to put any generic HTML `<meta>` elements. It takes an `array` of key-value pairs. The returned value must be a `string` or `closure`.
 
 ```php
 'meta' => [
-    'description' => site()->description(),
+    'description' => $site->description(),
     'robots' => 'index,follow,noodp'
 ],
 ```
@@ -171,27 +167,27 @@ The right place to place any generic HTML `<meta>` elements. It takes an `array`
     <summary><strong>Show HTML</strong> 👁</summary><p>
 
 ```html
-<meta name="description" content="My website description">
+<meta name="description" content="Website description">
 <meta name="robots" content="index,follow,noodp">
 ```
 
 </p></details>
 
 ### `link`
-This tags group is used to render HTML `<link>` element. It takes an `array` of key-value pairs. The value can be a `string`, `array`, or `closure`.
+This tag group is used to render HTML `<link>` elements. It takes an `array` of key-value pairs. The returned value can be a `string`, `array`, or `closure`.
 
 ```php
 'link' => [
     'stylesheet' => url('assets/css/main.css'),
     'icon' => [
-      ['href' => url('favicon-62.png'), 'sizes' => '62x62', 'type' =>'image/png'],
-      ['href' => url('favicon-192.png'), 'sizes' => '192x192', 'type' =>'image/png']
+      ['href' => url('assets/images/icons/favicon-62.png'), 'sizes' => '62x62', 'type' =>'image/png'],
+      ['href' => url('assets/images/icons/favicon-192.png'), 'sizes' => '192x192', 'type' =>'image/png']
     ],
-    'canonical' => function($page) { return $page->url(); },
-    'alternate' => function($page) {
+    'canonical' => $page->url(),
+    'alternate' => function(Page $page, Site $site) {
         $locales = [];
 
-        foreach (site()->languages() as $language) {
+        foreach ($site->languages() as $language) {
             if ($language->isDefault()) continue;
 
             $locales[] = [
@@ -210,8 +206,8 @@ This tags group is used to render HTML `<link>` element. It takes an `array` of 
 
 ```html
 <link rel="stylesheet" href="https://pedroborg.es/assets/css/main.css">
-<link rel="icon" href="/favicon-62.png" sizes="62x62" type="image/png">
-<link rel="icon" href="/favicon-192.png" sizes="192x192" type="image/png">
+<link rel="icon" href="https://pedroborg.es/assets/images/icons/favicon-62.png" sizes="62x62" type="image/png">
+<link rel="icon" href="https://pedroborg.es/assets/images/icons/favicon-192.png" sizes="192x192" type="image/png">
 <link rel="canonical" href="https://pedroborg.es">
 <link rel="alternate" hreflang="pt" href="https://pt.pedroborg.es">
 <link rel="alternate" hreflang="de" href="https://de.pedroborg.es">
@@ -224,10 +220,10 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 
 ```php
 'og' => [
-    'title' => function($page) { return $page->title(); },
+    'title' => $page->title(),
     'type' => 'website',
-    'site_name' => site()->title(),
-    'url' => function($page) { return $page->url(); }
+    'site_name' => $site->title(),
+    'url' => $page->url()
 ],
 ```
 
@@ -235,7 +231,7 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
     <summary><strong>Show HTML</strong> 👁</summary><p>
 
 ```html
-<meta property="og:title" content="Welcome">
+<meta property="og:title" content="Passionate web developer">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pedro Borges">
 <meta property="og:url" content="https://pedroborg.es">
@@ -246,31 +242,31 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 Of course you can use Open Graph [structured objects](http://ogp.me/#structured). Let's see a blog post example:
 
 ```php
-c::set('meta-tags.templates', [
-    'article' => [ // template name
-        'og' => [  // tags group name
-            'type' => 'article', // overrides the default
-            'namespace:article' => function($page) {
-                return [
+c::set('meta-tags.templates', function(Page $page, Site $site) {
+    return [
+        'article' => [ // template name
+            'og' => [  // tags group name
+                'type' => 'article', // overrides the default
+                'namespace:article' => [
                     'author' => $page->author(),
                     'published_time' => $page->date('%F'),
                     'modified_time' => $page->modified('%F'),
                     'tag' => ['tech', 'web']
-                ];
-            },
-            'namespace:image' => function($page) {
-                $image = $page->cover()->toFile();
-
-                return [
-                    'image' => $image->url(),
-                    'height' => $image->height(),
-                    'width' => $image->width(),
-                    'type' => $image->mime()
-                ];
-            }
+                ],
+                'namespace:image' => function(Page $page) {
+                    $image = $page->cover()->toFile();
+    
+                    return [
+                        'image' => $image->url(),
+                        'height' => $image->height(),
+                        'width' => $image->width(),
+                        'type' => $image->mime()
+                    ];
+                }
+            ]
         ]
-    ],
-]);
+    ];
+});
 ```
 
 <details>
@@ -279,10 +275,10 @@ c::set('meta-tags.templates', [
 ```html
 <!-- merged default definition -->
 <title>Pedro Borges</title>
-<meta name="description" content="My personal website">
-<meta property="og:title" content="My blog post title">
+<meta name="description" content="Passionate web developer">
+<meta property="og:title" content="How to make a Kirby plugin">
 <meta property="og:site_name" content="Pedro Borges">
-<meta property="og:url" content="https://pedroborg.es/blog/my-article">
+<meta property="og:url" content="https://pedroborg.es/blog/how-to-make-a-kirby-plugin">
 <!-- template definition -->
 <meta property="og:type" content="article">
 <meta property="og:article:author" content="Pedro Borges">
@@ -290,7 +286,7 @@ c::set('meta-tags.templates', [
 <meta property="og:article:modified_time" content="2017-03-01">
 <meta property="og:article:tag" content="tech">
 <meta property="og:article:tag" content="web">
-<meta property="og:image" content="https://pedroborg.es/content/blog/my-article/cover.jpg">
+<meta property="og:image" content="https://pedroborg.es/content/blog/how-to-make-a-kirby-plugin/code.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:type" content="image/jpeg">
@@ -302,16 +298,19 @@ Use the `namespace:` prefix for structured properties:
 
 - `author` inside `namespace:article` becomes `og:article:author`.
 - `image` inside `namespace:image` becomes `og:image`.
+- `width` inside `namespace:image` becomes `og:image:width`.
+
+> When using Open Graph tags, you will want to add the `prefix` attribute to the `html` element as suggested on [their docs](http://ogp.me/#metadata): `<html prefix="og: http://ogp.me/ns#">`
 
 ### `twitter`
-This tags group works just like the previous one, but it generates `<meta>` tags for [Twitter Cards](https://dev.twitter.com/cards/overview) instead.
+This tag group works just like the previous one, but it generates `<meta>` tags for [Twitter Cards](https://dev.twitter.com/cards/overview) instead.
 
 ```php
 'twitter' => [
     'card' => 'summary',
-    'site' => site()->twitter(),
-    'title' => function($page) { return $page->title(); },
-    'namespace:image' => function($page) {
+    'site' => $site->twitter(),
+    'title' => $page->title(),
+    'namespace:image' => function(Page $page) {
         $image = $page->cover()->toFile();
 
         return [
