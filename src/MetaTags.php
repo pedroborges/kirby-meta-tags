@@ -36,7 +36,16 @@ class MetaTags
         ]);
 
         $this->page = $page;
-        $this->data = $default;
+        $this->data = is_callable($default) ? $default($page, site()) : $default;
+        $templates = is_callable($templates) ? $templates($page, site()) : $templates;
+
+        if (! is_array($this->data)) {
+            throw new Exception('Option "meta-tags.default" must return an array');
+        }
+
+        if (! is_array($templates)) {
+            throw new Exception('Option "meta-tags.templates" must return an array');
+        }
 
         if (isset($templates[$page->intendedTemplate()])) {
             $this->data = a::merge($this->data, $templates[$page->intendedTemplate()]);
