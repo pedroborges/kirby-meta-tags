@@ -97,7 +97,7 @@ class MetaTags
     protected function addTag($tag, $value, $group)
     {
         if (is_callable($value)) {
-            $value = $value($this->page);
+            $value = $value($this->page, site());
         } elseif ($value instanceof Field && $value->isEmpty()) {
             $value = null;
         }
