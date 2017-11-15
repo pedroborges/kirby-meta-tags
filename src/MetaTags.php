@@ -20,7 +20,7 @@ class MetaTags
 
         $templates = c::get('meta-tags.templates', []);
         $default = c::get('meta-tags.default', [
-            'title' => page()->isHomePage() ? site()->title() : page()->title(),
+            'title' => $page->isHomePage() ? site()->title() : $page->title(),
             'meta' => [
                 'description' => site()->description()
             ],
