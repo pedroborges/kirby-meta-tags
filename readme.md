@@ -188,7 +188,7 @@ This tag group is used to render HTML `<link>` elements. It takes an `array` of 
         $locales = [];
 
         foreach ($site->languages() as $language) {
-            if ($language->isDefault()) continue;
+            if ($language->code() == $site->language()) continue;
 
             $locales[] = [
                 'hreflang' => $language->code(),
