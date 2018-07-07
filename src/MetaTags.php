@@ -68,11 +68,11 @@ class MetaTags
             : static::$instance;
     }
 
-    public function render()
+    public function render($groups = null)
     {
         $this->addTagsFromTemplate();
 
-        return $this->tags->render();
+        return $this->tags->render($groups);
     }
 
     protected function addTagsFromTemplate()
@@ -106,7 +106,9 @@ class MetaTags
             $tag = $value;
         }
 
-        if (is_array($value)) {
+        if ($group === 'json-ld') {
+            $this->addJsonld($tag, $value);
+        } elseif (is_array($value)) {
             $this->addTagsArray($tag, $value, $group);
         } elseif (! empty($value)) {
             $this->tags->$group($tag, $value);
@@ -130,6 +132,21 @@ class MetaTags
                 }
             }
         }
+    }
+
+    protected function addJsonld($type, $schema)
+    {
+        $schema = array_reverse($schema, true);
+
+        if (! isset($schema['@type'])) {
+            $schema['@type'] = Str::ucfirst($type);
+        }
+
+        if (! isset($schema['@context'])) {
+            $schema['@context'] = 'http://schema.org';
+        }
+
+        $this->tags->jsonld(array_reverse($schema, true));
     }
 
     public function __call($method, $arguments)

@@ -1,6 +1,6 @@
 # Kirby Meta Tags [![Release](https://img.shields.io/github/release/pedroborges/kirby-meta-tags.svg)](https://github.com/pedroborges/kirby-meta-tags/releases) [![Issues](https://img.shields.io/github/issues/pedroborges/kirby-meta-tags.svg)](https://github.com/pedroborges/kirby-meta-tags/issues)
 
-HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me) and [Twitter Cards](https://dev.twitter.com/cards/overview) out of the box.
+HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me), [Twitter Cards](https://dev.twitter.com/cards/overview), and [JSON Linked Data](https://json-ld.org) out of the box.
 
 ## Requirements
 - Kirby 2.3.2+
@@ -49,7 +49,19 @@ After installing the Meta Tags plugin, you need to add one line to the `head` el
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-+    <?php echo $page->metaTags() ?>
++   <?php echo $page->metaTags() ?>
+```
+
+By default the `metaTags` page method will render all tag groups at once. But you can also render only one tag at a time:
+
+```php
+<?php echo $page->metaTags('title') ?>
+```
+
+Or specify which tags to render:
+
+```php
+<?php echo $page->metaTags(['og', 'twitter', 'json-ld']) ?>
 ```
 
 ### Default
@@ -122,7 +134,8 @@ c::set('meta-tags.default', [
     'meta' => [ /* meta tags */ ],
     'link' => [ /* link tags */ ],
     'og' => [ /* Open Graph tags */ ],
-    'twitter' => [ /* Twitter Card tags */ ]
+    'twitter' => [ /* Twitter Card tags */ ],
+    'json-ld' => [ /* JSON-LD schema */ ],
 ]);
 ```
 
@@ -330,6 +343,46 @@ This tag group works just like the previous one, but it generates `<meta>` tags 
 <meta name="twitter:title" content="My blog post title">
 <meta name="twitter:image" content="https://pedroborg.es/content/blog/my-article/cover.jpg">
 <meta name="twitter:image:alt" content="Article cover image">
+```
+
+</p></details>
+
+### `json-ld`
+Use this tag group to add [JSON Linked Data](https://json-ld.org) schemas to your website.
+
+```php
+'json-ld' => [
+    'Organization' => [
+        'name' => $site->title()->value(),
+        'url' => $site->url(),
+        "contactPoint" => [
+            '@type' => 'ContactPoint',
+            'telephone' => $site->phoneNumber()->value(),
+            'contactType' => 'customer service'
+        ]
+    ]
+]
+```
+
+> If you leave them out, `http://schema.org` will be added as `@context` and the array key will be added as `@type`.
+
+<details>
+    <summary><strong>Show HTML</strong> 👁</summary><p>
+
+```html
+<script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Organization",
+    "name": "Example Co",
+    "url": "https://example.com",
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-401-555-1212",
+        "contactType": "customer service"
+    }
+}
+</script>
 ```
 
 </p></details>

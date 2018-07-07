@@ -13,8 +13,8 @@
 // Load dependencies
 require __DIR__ . DS . 'vendor' . DS . 'autoload.php';
 
-kirby()->set('page::method', 'metaTags', function($page) {
-    return metaTags($page)->render();
+kirby()->set('page::method', 'metaTags', function ($page, $groups = null) {
+    return metaTags($page)->render($groups);
 });
 
 function metaTags($page)
