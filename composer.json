@@ -5,6 +5,6 @@
         ]
     },
     "require": {
-        "pedroborges/meta-tags": "^0.0.1"
+        "pedroborges/meta-tags": "^0.0.2"
     }
 }

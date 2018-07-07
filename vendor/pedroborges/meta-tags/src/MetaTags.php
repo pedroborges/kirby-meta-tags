@@ -5,7 +5,7 @@ namespace PedroBorges\MetaTags;
 /**
  * PHP Meta Tags
  *
- * @version   0.0.1
+ * @version   0.0.2
  * @author    Pedro Borges <oi@pedroborg.es>
  * @copyright Pedro Borges <oi@pedroborg.es>
  * @link      https://github.com/pedroborges/meta-tags
@@ -30,7 +30,7 @@ class MetaTags
     public function __construct($indentation = null, $order = null)
     {
         $this->indentation = $indentation ?: '    ';
-        $this->order = $order ?: ['title', 'meta', 'og', 'twitter', 'link'];
+        $this->order = $order ?: ['title', 'meta', 'og', 'twitter', 'link', 'json-ld'];
     }
 
     /**
@@ -43,19 +43,23 @@ class MetaTags
      */
     public function link($key, $value)
     {
-        $attributes = ['rel' => $key];
+        if (! empty($value)) {
+            $attributes = ['rel' => $key];
 
-        if (is_array($value)) {
-            foreach ($value as $key => $v) { $attributes[$key] = $v; }
-        } else {
-            $attributes['href'] = $value;
+            if (is_array($value)) {
+                foreach ($value as $key => $v) {
+                    $attributes[$key] = $v;
+                }
+            } else {
+                $attributes['href'] = $value;
+            }
+
+            $tag = $this->createTag('link', $attributes);
+
+            $this->addToTagsGroup('link', $key, $tag);
+
+            return $tag;
         }
-
-        $tag = $this->createTag('link', $attributes);
-
-        $this->addToTagsGroup('link', $key, $tag);
-
-        return $tag;
     }
 
     /**
@@ -68,19 +72,23 @@ class MetaTags
      */
     public function meta($key, $value)
     {
-        $attributes = ['name' => $key];
+        if (! empty($value)) {
+            $attributes = ['name' => $key];
 
-        if (is_array($value)) {
-            foreach ($value as $key => $v) { $attributes[$key] = $v; }
-        } else {
-            $attributes['content'] = $value;
+            if (is_array($value)) {
+                foreach ($value as $key => $v) {
+                    $attributes[$key] = $v;
+                }
+            } else {
+                $attributes['content'] = $value;
+            }
+
+            $tag = $this->createTag('meta', $attributes);
+
+            $this->addToTagsGroup('meta', $key, $tag);
+
+            return $tag;
         }
-
-        $tag = $this->createTag('meta', $attributes);
-
-        $this->addToTagsGroup('meta', $key, $tag);
-
-        return $tag;
     }
 
     /**
@@ -94,15 +102,41 @@ class MetaTags
      */
     public function og($key, $value, $prefixed = true)
     {
-        $key = $prefixed ? "og:{$key}" : $key;
-        $tag = $this->createTag('meta', [
-            'property' => $key,
-            'content' => $value
-        ]);
+        if (! empty($value)) {
+            $key = $prefixed ? "og:{$key}" : $key;
+            $tag = $this->createTag('meta', [
+                'property' => $key,
+                'content' => $value
+            ]);
 
-        $this->addToTagsGroup('og', $key, $tag);
+            $this->addToTagsGroup('og', $key, $tag);
 
-        return $tag;
+            return $tag;
+        }
+    }
+
+    /**
+     * Build an JSON linked data meta tag.
+     *
+     * @param array  $schema
+     *
+     * @return string
+     */
+    public function jsonld($schema)
+    {
+        if (! empty($schema)) {
+            $json = json_encode($schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+            $script = "<script type=\"application/ld+json\">\n" . $json . "\n</script>";
+
+            // Fix schema indentation
+            $this->tags['json-ld'][] = implode(
+                "\n" . $this->indentation,
+                explode("\n", $script)
+            );
+
+            return $script;
+        }
     }
 
     /**
@@ -134,27 +168,32 @@ class MetaTags
      */
     public function twitter($key, $value, $prefixed = true)
     {
-        $key = $prefixed ? "twitter:{$key}" : $key;
-        $tag = $this->createTag('meta', [
-            'name' => $key,
-            'content' => $value
-        ]);
+        if (! empty($value)) {
+            $key = $prefixed ? "twitter:{$key}" : $key;
+            $tag = $this->createTag('meta', [
+                'name' => $key,
+                'content' => $value
+            ]);
 
-        $this->addToTagsGroup('twitter', $key, $tag);
+            $this->addToTagsGroup('twitter', $key, $tag);
 
-        return $tag;
+            return $tag;
+        }
     }
 
     /**
-     * Render all registered HTML meta tags
+     * Render all or a specific group of HTML meta tags
+     *
+     * @param mixed  $groups
      *
      * @return string
      */
-    public function render()
+    public function render($groups = null)
     {
+        $groups = ! is_null($groups) ? (array) $groups : $this->order;
         $html = [];
 
-        foreach ($this->order as $group) {
+        foreach ($groups as $group) {
             $html[] = $this->renderGroup($group);
         }
 
@@ -173,7 +212,9 @@ class MetaTags
      */
     protected function renderGroup($group)
     {
-        if (! isset($this->tags[$group])) return;
+        if (! isset($this->tags[$group])) {
+            return;
+        }
 
         $html = [];
 

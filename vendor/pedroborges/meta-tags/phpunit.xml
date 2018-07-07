@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php" colors="true">
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    verbose="true"
+    stopOnFailure="false">
     <testsuites>
         <testsuite name="Meta Tags Test Suite">
             <directory suffix="Test.php">./tests</directory>

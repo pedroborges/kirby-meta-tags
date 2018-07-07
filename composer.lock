@@ -1,27 +1,27 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f089b49a1348fdb33d70615cda8cd767",
+    "content-hash": "ec9c4a4484e12d0131471cd04bc598db",
     "packages": [
         {
             "name": "pedroborges/meta-tags",
-            "version": "v0.0.1",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pedroborges/meta-tags.git",
-                "reference": "6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7"
+                "reference": "e6259f598019ab44f12c0e15d4b465d00b4d39cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pedroborges/meta-tags/zipball/6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7",
-                "reference": "6180ef5c48cf9e17b3d9e8d1f592b396afd69ff7",
+                "url": "https://api.github.com/repos/pedroborges/meta-tags/zipball/e6259f598019ab44f12c0e15d4b465d00b4d39cb",
+                "reference": "e6259f598019ab44f12c0e15d4b465d00b4d39cb",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7.0"
+                "phpunit/phpunit": "^7.0.0"
             },
             "type": "library",
             "autoload": {
@@ -39,6 +39,8 @@
                     "email": "oi@pedroborg.es"
                 }
             ],
+            "description": "HTML meta tags generator for PHP.",
+            "homepage": "https://github.com/pedroborges/meta-tags",
             "keywords": [
                 "facebook",
                 "head",
@@ -48,7 +50,7 @@
                 "seo",
                 "twitter cards"
             ],
-            "time": "2017-02-28T14:40:48+00:00"
+            "time": "2018-07-07T18:21:26+00:00"
         }
     ],
     "packages-dev": [],
