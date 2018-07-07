@@ -54,13 +54,13 @@ class MetaTags
         static::$instance = $this;
     }
 
-     /**
-     * Return an existing instance or create a new one.
-     *
-     * @param  Page  $page
-     *
-     * @return HeadTags
-     */
+    /**
+    * Return an existing instance or create a new one.
+    *
+    * @param  Page  $page
+    *
+    * @return HeadTags
+    */
     public static function instance($page)
     {
         return static::$instance = is_null(static::$instance)
@@ -102,7 +102,9 @@ class MetaTags
             $value = null;
         }
 
-        if ($group === 'title') $tag = $value;
+        if ($group === 'title') {
+            $tag = $value;
+        }
 
         if (is_array($value)) {
             $this->addTagsArray($tag, $value, $group);
@@ -130,12 +132,12 @@ class MetaTags
         }
     }
 
-    public function __call($method, $arguments) {
-        if( method_exists($this->tags, $method)) {
-            return call_user_func_array(array($this->tags, $method), $arguments);
+    public function __call($method, $arguments)
+    {
+        if (method_exists($this->tags, $method)) {
+            return call_user_func_array([$this->tags, $method], $arguments);
         } else {
             throw new Exception('Invalid method: ' . $method);
         }
     }
-
 }
