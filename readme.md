@@ -393,4 +393,4 @@ All notable changes to this project will be documented at: <https://github.com/p
 ## License
 Meta Tags plugin is open-sourced software licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
-Copyright © 2017 Pedro Borges <oi@pedroborg.es>
+Copyright © 2018 Pedro Borges <oi@pedroborg.es>

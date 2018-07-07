@@ -1,7 +1,7 @@
 {
   "name": "meta-tags",
   "author": "Pedro Borges <oi@pedroborg.es>",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Kirby Meta Tags",
   "type": "kirby-plugin",
   "license": "MIT"

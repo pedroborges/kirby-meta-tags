@@ -3,7 +3,7 @@
 /**
  * Kirby Meta Tags Plugin
  *
- * @version   1.0.0
+ * @version   1.1.0
  * @author    Pedro Borges <oi@pedroborg.es>
  * @copyright Pedro Borges <oi@pedroborg.es>
  * @link      https://github.com/pedroborges/kirby-meta-tags

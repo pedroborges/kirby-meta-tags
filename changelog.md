@@ -1,6 +1,37 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2018-07-07
+### Added
+- Support for JSON-LD schema:
+
+    ```php
+    'json-ld' => [
+        'Organization' => [
+            'name' => $site->title()->value(),
+            'url' => $site->url(),
+            "contactPoint" => [
+                '@type' => 'ContactPoint',
+                'telephone' => $site->phoneNumber()->value(),
+                'contactType' => 'customer service'
+            ]
+        ]
+    ]
+    ```
+
+- Support for rendering one tag or a specific group of tags:
+
+    ```php
+    <?php echo $page->metaTags('title') ?>
+
+    // or passing an array
+
+    <?php echo $page->metaTags(['og', 'twitter', 'json-ld']) ?>
+    ```
+
+### Fixed
+- Tags with empty value being rendered with invalid markup.
+
 ## [1.0.0] - 2017-11-15
 The previous version has been stable enough and no issue has been reported in 8 months :smiley:
 
