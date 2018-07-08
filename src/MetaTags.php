@@ -139,7 +139,7 @@ class MetaTags
         $schema = array_reverse($schema, true);
 
         if (! isset($schema['@type'])) {
-            $schema['@type'] = Str::ucfirst($type);
+            $schema['@type'] = ucfirst($type);
         }
 
         if (! isset($schema['@context'])) {
