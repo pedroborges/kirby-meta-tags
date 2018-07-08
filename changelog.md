@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.1.1] - 2018-07-08
 ### Fixed
-- When capitalizing the `@type` first letter, other capital letter in the word were being converted to lowercase. This has been fixed.
+- When capitalizing the `@type` first letter, other capital letters in the word were being converted to lowercase. This has been fixed.
 
 ## [1.1.0] - 2018-07-07
 ### Added
