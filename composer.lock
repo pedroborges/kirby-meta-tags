@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec9c4a4484e12d0131471cd04bc598db",
+    "content-hash": "d46805a93113fa0f707ed1f336e1c4bd",
     "packages": [
         {
             "name": "pedroborges/meta-tags",
