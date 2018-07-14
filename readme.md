@@ -6,6 +6,11 @@ HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me), [Twitt
 - Kirby 3
 - PHP 7.1+
 
+## Installation
+
+### Download
+[Download the files](https://github.com/pedroborges/kirby-meta-tags/releases/download/v2.0.0-alpha-1/meta-tags.zip) and place them inside `site/plugins/meta-tags`.
+
 ## Basic Usage
 After installing the Meta Tags plugin, you need to add one line to the `head` element on your template, or `header.php` snippet:
 
