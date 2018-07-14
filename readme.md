@@ -3,43 +3,8 @@
 HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me), [Twitter Cards](https://dev.twitter.com/cards/overview), and [JSON Linked Data](https://json-ld.org) out of the box.
 
 ## Requirements
-- Kirby 2.3.2+
-- PHP 5.4+
-
-## Installation
-
-### Download
-[Download the files](https://github.com/pedroborges/kirby-meta-tags/archive/master.zip) and place them inside `site/plugins/meta-tags`.
-
-### Kirby CLI
-Kirby's [command line interface](https://github.com/getkirby/cli) is the easiest way to install the Meta Tags plugin:
-
-    $ kirby plugin:install pedroborges/kirby-meta-tags
-
-To update it simply run:
-
-    $ kirby plugin:update pedroborges/kirby-meta-tags
-
-### Git Submodule
-You can add the Meta Tags as a Git submodule.
-
-<details>
-    <summary><strong>Show Git Submodule instructions</strong> 👁</summary><p>
-
-    $ cd your/project/root
-    $ git submodule add https://github.com/pedroborges/kirby-meta-tags.git site/plugins/meta-tags
-    $ git submodule update --init --recursive
-    $ git commit -am "Add plugin Meta Tags"
-
-Updating is as easy as running a few commands.
-
-    $ cd your/project/root
-    $ git submodule foreach git checkout master
-    $ git submodule foreach git pull
-    $ git commit -am "Update submodules"
-    $ git submodule update --init --recursive
-
-</p></details>
+- Kirby 3
+- PHP 7.1+
 
 ## Basic Usage
 After installing the Meta Tags plugin, you need to add one line to the `head` element on your template, or `header.php` snippet:
@@ -65,53 +30,56 @@ Or specify which tags to render:
 ```
 
 ### Default
-
 The plugin ships with some default meta tags enabled for your convenience:
 
 ```php
-c::set('meta-tags.default', function(Page $page, Site $site) {
-    return [
-        'title' => $site->title(),
-        'meta' => [
-            'description' => $site->description()
-        ],
-        'link' => [
-            'canonical' => $page->url()
-        ],
-        'og' => [
-            'title' => $page->isHomePage()
-                ? $site->title()
-                : $page->title(),
-            'type' => 'website',
-            'site_name' => $site->title(),
-            'url' => $page->url()
-        ]
-    ];
-});
+return [
+    // other options...
+    'pedroborges.metatags.default' => function ($page, $site) {
+        return [
+            'title' => $site->title(),
+            'meta' => [
+                'description' => $site->description()
+            ],
+            'link' => [
+                'canonical' => $page->url()
+            ],
+            'og' => [
+                'title' => $page->isHomePage()
+                    ? $site->title()
+                    : $page->title(),
+                'type' => 'website',
+                'site_name' => $site->title(),
+                'url' => $page->url()
+            ]
+        ];
+    }
+]
 ```
 
-**The `meta-tags.default` option is applied to all pages on your Kirby site.** Of course you can change the defaults. In order to do that, just copy this example to your `site/config/config.php` file and tweak it to fit your website needs.
-
-> If your configuration file grows too much, you can extract it to a `site/config/meta-tags.php` file, for example, and require it from `site/config/config.php`.
+**The `pedroborges.metatags.default` option is applied to all pages on your Kirby site.** Of course you can change the defaults. In order to do that, just copy this example to your `site/config/config.php` file and tweak it to fit your website needs.
 
 ### Templates
 Following the flexible spirit of Kirby, you also have the option to add template specific meta tags:
 
 ```php
-c::set('meta-tags.templates', function(Page $page, Site $site) {
-    return [
-        'song' => [
-            'og' => [
-                'type' => 'music.song',
-                'namespace:music' => [
-                    'duration' => $page->duration(),
-                    'album' => $page->parent()->url(),
-                    'musician' => $page->singer()->html()
+return [
+    // other options...
+    'pedroborges.metatags.templates' => function ($page, $site) {
+        return [
+            'song' => [
+                'og' => [
+                    'type' => 'music.song',
+                    'namespace:music' => [
+                        'duration' => $page->duration(),
+                        'album' => $page->parent()->url(),
+                        'musician' => $page->singer()->html()
+                    ]
                 ]
             ]
-        ]
-    ];
-});
+        ];
+    }
+]
 ```
 
 In the example above, those settings will only be applied to pages which template is `song`.
@@ -123,34 +91,38 @@ For more information on all the `meta`, `link`, Open Graph and Twitter Card tags
 - [Twitter Cards](https://dev.twitter.com/cards/overview)
 
 ## Options
-Both the `meta-tags.default` and `meta-tags.templates` accept similar values:
+Both the `pedroborges.metatags.default` and `pedroborges.metatags.templates` accept similar values:
 
-### `meta-tags.default`
+### `pedroborges.metatags.default`
 It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter`. With the exception of `title`, all other groups must return an array of key-value pairs. Check out the [tag groups](#tag-groups) section to learn which value types are accepted by each key.
 
 ```php
-c::set('meta-tags.default', [
-    'title' => 'Site Name',
-    'meta' => [ /* meta tags */ ],
-    'link' => [ /* link tags */ ],
-    'og' => [ /* Open Graph tags */ ],
-    'twitter' => [ /* Twitter Card tags */ ],
-    'json-ld' => [ /* JSON-LD schema */ ],
-]);
+'pedroborges.metatags.default' => function ($page, $site) {
+    return [
+        'title' => 'Site Name',
+        'meta' => [ /* meta tags */ ],
+        'link' => [ /* link tags */ ],
+        'og' => [ /* Open Graph tags */ ],
+        'twitter' => [ /* Twitter Card tags */ ],
+        'json-ld' => [ /* JSON-LD schema */ ],
+    ];
+}
 ```
 
-### `meta-tags.templates`
+### `pedroborges.metatags.templates`
 This option allows you to define a template specific set of meta tags. It must return an array where each key corresponds to the template name you are targeting.
 
 ```php
-c::set('meta-tags.templates', [
-    'article' => [ /* tags groups */ ],
-    'about' => [ /* tags groups */ ],
-    'products' => [ /* tags groups */ ],
-]);
+'pedroborges.metatags.default' => function ($page, $site) {
+    return [
+        'article' => [ /* tags groups */ ],
+        'about' => [ /* tags groups */ ],
+        'products' => [ /* tags groups */ ],
+    ];
+}
 ```
 
-When a key matches the current page template name, it is merged and overrides any repeating properties defined on the `meta-tags.default` option so you don't have to repeat yourself.
+When a key matches the current page template name, it is merged and overrides any repeating properties defined on the `pedroborges.metatags.default` option so you don't have to repeat yourself.
 
 ## Tag Groups
 These groups accept string, closure, or array as their values. Being so flexible, the sky is the limit to what you can do with Meta Tags!
@@ -197,7 +169,7 @@ This tag group is used to render HTML `<link>` elements. It takes an `array` of 
       ['href' => url('assets/images/icons/favicon-192.png'), 'sizes' => '192x192', 'type' =>'image/png']
     ],
     'canonical' => $page->url(),
-    'alternate' => function(Page $page, Site $site) {
+    'alternate' => function () {
         $locales = [];
 
         foreach ($site->languages() as $language) {
@@ -255,15 +227,15 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 Of course you can use Open Graph [structured objects](http://ogp.me/#structured). Let's see a blog post example:
 
 ```php
-c::set('meta-tags.templates', function(Page $page, Site $site) {
+'pedroborges.metatags.templates' => function ($page, $site) {
     return [
         'article' => [ // template name
             'og' => [  // tags group name
                 'type' => 'article', // overrides the default
                 'namespace:article' => [
                     'author' => $page->author(),
-                    'published_time' => $page->date('%F'),
-                    'modified_time' => $page->modified('%F'),
+                    'published_time' => $page->date('Y-m-d'),
+                    'modified_time' => $page->modified('Y-m-d'),
                     'tag' => ['tech', 'web']
                 ],
                 'namespace:image' => function(Page $page) {
@@ -279,7 +251,7 @@ c::set('meta-tags.templates', function(Page $page, Site $site) {
             ]
         ]
     ];
-});
+}
 ```
 
 <details>
@@ -323,7 +295,7 @@ This tag group works just like the previous one, but it generates `<meta>` tags 
     'card' => 'summary',
     'site' => $site->twitter(),
     'title' => $page->title(),
-    'namespace:image' => function(Page $page) {
+    'namespace:image' => function ($page) {
         $image = $page->cover()->toFile();
 
         return [

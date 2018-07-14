@@ -1,10 +1,24 @@
 {
+    "name": "pedroborges/kirby-meta-tags",
+    "description": "HTML meta tags generator for Kirby.",
+    "version": "2.0.0-alpha-1",
+    "keywords": ["kirby-plugin"],
+    "authors": [
+        {
+            "name": "Pedro Borges",
+            "email": "oi@pedroborg.es"
+        }
+    ],
     "autoload": {
-        "classmap": [
-            "src"
-        ]
+        "files": [
+            "config.php"
+        ],
+        "psr-4": {
+            "PedroBorges\\KirbyMetaTags\\": "src/"
+        }
     },
     "require": {
+        "php": ">=7.1.0",
         "pedroborges/meta-tags": "^0.0.2"
     }
 }
