@@ -54,7 +54,7 @@ class MetaTags
         }
 
         if (isset($templates[$page->template()->name()])) {
-            $this->data = A::update($this->data, $templates[$page->template()->name()]);
+            $this->data = A::merge($this->data, $templates[$page->template()->name()]);
         }
 
         static::$instance = $this;
