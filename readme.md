@@ -9,7 +9,37 @@ HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me), [Twitt
 ## Installation
 
 ### Download
-[Download the files](https://github.com/pedroborges/kirby-meta-tags/archive/v1.1.1.zip) and place them inside `site/plugins/meta-tags`.
+[Download the files](https://github.com/pedroborges/kirby-meta-tags/archive/master.zip) and place them inside `site/plugins/meta-tags`.
+
+### Kirby CLI
+Kirby's [command line interface](https://github.com/getkirby/cli) is the easiest way to install the Meta Tags plugin:
+
+    $ kirby plugin:install pedroborges/kirby-meta-tags
+
+To update it simply run:
+
+    $ kirby plugin:update pedroborges/kirby-meta-tags
+
+### Git Submodule
+You can add the Meta Tags as a Git submodule.
+
+<details>
+    <summary><strong>Show Git Submodule instructions</strong> 👁</summary><p>
+
+    $ cd your/project/root
+    $ git submodule add https://github.com/pedroborges/kirby-meta-tags.git site/plugins/meta-tags
+    $ git submodule update --init --recursive
+    $ git commit -am "Add plugin Meta Tags"
+
+Updating is as easy as running a few commands.
+
+    $ cd your/project/root
+    $ git submodule foreach git checkout master
+    $ git submodule foreach git pull
+    $ git commit -am "Update submodules"
+    $ git submodule update --init --recursive
+
+</p></details>
 
 ## Basic Usage
 After installing the Meta Tags plugin, you need to add one line to the `head` element on your template, or `header.php` snippet:
@@ -363,4 +393,4 @@ All notable changes to this project will be documented at: <https://github.com/p
 ## License
 Meta Tags plugin is open-sourced software licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
-Copyright © 2019 Pedro Borges <oi@pedroborg.es>
+Copyright © 2018 Pedro Borges <oi@pedroborg.es>
