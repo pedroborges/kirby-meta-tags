@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2019-02-21
+### Fixed
+- Error when loading the `vendor/autoload.php` file in Composer installation.
+
 ## [2.0.0] - 2019-02-21
 This version adds support to Kirby 3. All options remain and work in the same way as they did in Kirby 2.
 

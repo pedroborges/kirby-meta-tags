@@ -23,5 +23,8 @@
         "psr-4": {
             "PedroBorges\\KirbyMetaTags\\": "src/"
         }
+    },
+    "extra": {
+        "installer-name": "meta-tags"
     }
 }
