@@ -1,15 +1,6 @@
 <?php
 
-use Kirby\Cms\Page;
 use PedroBorges\KirbyMetaTags\MetaTags;
-
-Kirby::plugin('pedroborges/metatags', [
-    'pageMethods' => [
-        'metaTags' => function ($groups = null) {
-            return metaTags($this)->render($groups);
-        }
-    ]
-]);
 
 if (! function_exists('metaTags')) {
     /**

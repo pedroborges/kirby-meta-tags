@@ -20,12 +20,12 @@ class MetaTags
 
     public function __construct(Page $page)
     {
-        $this->indentation = option('pedroborges.metatags.indentation', null);
-        $this->order = option('pedroborges.metatags.order', null);
+        $this->indentation = option('pedroborges.meta-tags.indentation', null);
+        $this->order = option('pedroborges.meta-tags.order', null);
         $this->tags = new Tags($this->indentation, $this->order);
 
-        $templates = option('pedroborges.metatags.templates', []);
-        $default = option('pedroborges.metatags.default', [
+        $templates = option('pedroborges.meta-tags.templates', []);
+        $default = option('pedroborges.meta-tags.default', [
             'title' => $page->isHomePage() ? site()->title() : $page->title(),
             'meta' => [
                 'description' => site()->description()
@@ -46,11 +46,11 @@ class MetaTags
         $templates = is_callable($templates) ? $templates($page, site()) : $templates;
 
         if (! is_array($this->data)) {
-            throw new Exception('Option "pedroborges.metatags.default" must return an array');
+            throw new Exception('Option "pedroborges.meta-tags.default" must return an array');
         }
 
         if (! is_array($templates)) {
-            throw new Exception('Option "pedroborges.metatags.templates" must return an array');
+            throw new Exception('Option "pedroborges.meta-tags.templates" must return an array');
         }
 
         if (isset($templates[$page->template()->name()])) {

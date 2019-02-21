@@ -9,7 +9,19 @@ HTML meta tags generator for Kirby. Supports [Open Graph](http://ogp.me), [Twitt
 ## Installation
 
 ### Download
-[Download the files](https://github.com/pedroborges/kirby-meta-tags/releases/download/v2.0.0-alpha-1/meta-tags.zip) and place them inside `site/plugins/meta-tags`.
+Download and copy this repository to `site/plugins/meta-tags`.
+
+### Git submodule
+```
+git submodule add https://github.com/pedroborges/kirby-meta-tags.git site/plugins/meta-tags
+```
+
+### Composer
+```
+composer require pedroborges/kirby-meta-tags
+```
+
+> For Kirby 2, you can download [v1.1.1](https://github.com/pedroborges/kirby-meta-tags/archive/v1.1.1.zip) and copy the files to `site/plugins/meta-tags`.
 
 ## Basic Usage
 After installing the Meta Tags plugin, you need to add one line to the `head` element on your template, or `header.php` snippet:
@@ -40,7 +52,7 @@ The plugin ships with some default meta tags enabled for your convenience:
 ```php
 return [
     // other options...
-    'pedroborges.metatags.default' => function ($page, $site) {
+    'pedroborges.meta-tags.default' => function ($page, $site) {
         return [
             'title' => $site->title(),
             'meta' => [
@@ -62,7 +74,7 @@ return [
 ]
 ```
 
-**The `pedroborges.metatags.default` option is applied to all pages on your Kirby site.** Of course you can change the defaults. In order to do that, just copy this example to your `site/config/config.php` file and tweak it to fit your website needs.
+**The `pedroborges.meta-tags.default` option is applied to all pages on your Kirby site.** Of course you can change the defaults. In order to do that, just copy this example to your `site/config/config.php` file and tweak it to fit your website needs.
 
 ### Templates
 Following the flexible spirit of Kirby, you also have the option to add template specific meta tags:
@@ -70,7 +82,7 @@ Following the flexible spirit of Kirby, you also have the option to add template
 ```php
 return [
     // other options...
-    'pedroborges.metatags.templates' => function ($page, $site) {
+    'pedroborges.meta-tags.templates' => function ($page, $site) {
         return [
             'song' => [
                 'og' => [
@@ -96,13 +108,13 @@ For more information on all the `meta`, `link`, Open Graph and Twitter Card tags
 - [Twitter Cards](https://dev.twitter.com/cards/overview)
 
 ## Options
-Both the `pedroborges.metatags.default` and `pedroborges.metatags.templates` accept similar values:
+Both the `pedroborges.meta-tags.default` and `pedroborges.meta-tags.templates` accept similar values:
 
-### `pedroborges.metatags.default`
+### `pedroborges.meta-tags.default`
 It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter`. With the exception of `title`, all other groups must return an array of key-value pairs. Check out the [tag groups](#tag-groups) section to learn which value types are accepted by each key.
 
 ```php
-'pedroborges.metatags.default' => function ($page, $site) {
+'pedroborges.meta-tags.default' => function ($page, $site) {
     return [
         'title' => 'Site Name',
         'meta' => [ /* meta tags */ ],
@@ -114,11 +126,11 @@ It accepts an array containing any or all of the following keys: `title`, `meta`
 }
 ```
 
-### `pedroborges.metatags.templates`
+### `pedroborges.meta-tags.templates`
 This option allows you to define a template specific set of meta tags. It must return an array where each key corresponds to the template name you are targeting.
 
 ```php
-'pedroborges.metatags.default' => function ($page, $site) {
+'pedroborges.meta-tags.default' => function ($page, $site) {
     return [
         'article' => [ /* tags groups */ ],
         'about' => [ /* tags groups */ ],
@@ -127,7 +139,7 @@ This option allows you to define a template specific set of meta tags. It must r
 }
 ```
 
-When a key matches the current page template name, it is merged and overrides any repeating properties defined on the `pedroborges.metatags.default` option so you don't have to repeat yourself.
+When a key matches the current page template name, it is merged and overrides any repeating properties defined on the `pedroborges.meta-tags.default` option so you don't have to repeat yourself.
 
 ## Tag Groups
 These groups accept string, closure, or array as their values. Being so flexible, the sky is the limit to what you can do with Meta Tags!
@@ -232,7 +244,7 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 Of course you can use Open Graph [structured objects](http://ogp.me/#structured). Let's see a blog post example:
 
 ```php
-'pedroborges.metatags.templates' => function ($page, $site) {
+'pedroborges.meta-tags.templates' => function ($page, $site) {
     return [
         'article' => [ // template name
             'og' => [  // tags group name
@@ -368,6 +380,6 @@ Use this tag group to add [JSON Linked Data](https://json-ld.org) schemas to you
 All notable changes to this project will be documented at: <https://github.com/pedroborges/kirby-meta-tags/blob/master/changelog.md>
 
 ## License
-Meta Tags plugin is open-sourced software licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
+The Meta Tags plugin is open-sourced software licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
-Copyright © 2018 Pedro Borges <oi@pedroborg.es>
+Copyright © 2019 Pedro Borges <oi@pedroborg.es>

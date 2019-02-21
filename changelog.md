@@ -1,5 +1,10 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
+
+## [2.0.0] - 2019-02-21
+This version adds support to Kirby 3. All options remain and work in the same way as they did in Kirby 2.
+
+For Kirby 2, you can download the [plugin v1.1.1](https://github.com/pedroborges/kirby-meta-tags/archive/v1.1.1.zip) and install it manually in the `site/plugins/meta-tags`.
 
 ## [1.1.1] - 2018-07-08
 ### Fixed
