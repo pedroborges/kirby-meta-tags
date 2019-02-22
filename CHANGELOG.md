@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.2] - 2019-02-22
+### Fixed
+- Exception thrown when `Kirby\Cms\Page` is passed to `metaTags()`.
+
 ## [2.0.1] - 2019-02-21
 ### Fixed
 - Error when loading the `vendor/autoload.php` file in Composer installation.
