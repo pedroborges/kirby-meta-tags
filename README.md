@@ -130,7 +130,7 @@ It accepts an array containing any or all of the following keys: `title`, `meta`
 This option allows you to define a template specific set of meta tags. It must return an array where each key corresponds to the template name you are targeting.
 
 ```php
-'pedroborges.meta-tags.default' => function ($page, $site) {
+'pedroborges.meta-tags.templates' => function ($page, $site) {
     return [
         'article' => [ /* tags groups */ ],
         'about' => [ /* tags groups */ ],
