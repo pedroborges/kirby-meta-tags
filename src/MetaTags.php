@@ -17,6 +17,7 @@ class MetaTags
     protected $indentation;
     protected $order;
     protected $page;
+    protected $data;
 
     public function __construct(Page $page)
     {
@@ -65,13 +66,18 @@ class MetaTags
     *
     * @param  Page  $page
     *
-    * @return HeadTags
+    * @return MetaTags
     */
     public static function instance($page)
     {
-        return static::$instance = is_null(static::$instance)
+        $instance = is_null(static::$instance)
             ? new static($page)
             : static::$instance;
+        if ($instance->page !== $page) {
+            $instance = new static($page);
+        }
+
+        return static::$instance = $instance;
     }
 
     public function render($groups = null)
