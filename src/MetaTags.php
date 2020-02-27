@@ -57,6 +57,8 @@ class MetaTags
             $this->data = A::merge($this->data, $templates[$page->template()->name()]);
         }
 
+        $this->addTagsFromTemplate();
+
         static::$instance = $this;
     }
 
@@ -76,8 +78,6 @@ class MetaTags
 
     public function render($groups = null)
     {
-        $this->addTagsFromTemplate();
-
         return $this->tags->render($groups);
     }
 
