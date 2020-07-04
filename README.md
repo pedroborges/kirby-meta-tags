@@ -52,7 +52,7 @@ The plugin ships with some default meta tags enabled for your convenience:
 ```php
 return [
     // other options...
-    'pedroborges.meta-tags.default' => function ($page, $site) {
+    'pedroborges.meta-tags.default' => function ($page, $site, $kirby) {
         return [
             'title' => $site->title(),
             'meta' => [
@@ -82,7 +82,7 @@ Following the flexible spirit of Kirby, you also have the option to add template
 ```php
 return [
     // other options...
-    'pedroborges.meta-tags.templates' => function ($page, $site) {
+    'pedroborges.meta-tags.templates' => function ($page, $site, $kirby) {
         return [
             'song' => [
                 'og' => [
@@ -114,7 +114,7 @@ Both the `pedroborges.meta-tags.default` and `pedroborges.meta-tags.templates` a
 It accepts an array containing any or all of the following keys: `title`, `meta`, `link`, `og`, and `twitter`. With the exception of `title`, all other groups must return an array of key-value pairs. Check out the [tag groups](#tag-groups) section to learn which value types are accepted by each key.
 
 ```php
-'pedroborges.meta-tags.default' => function ($page, $site) {
+'pedroborges.meta-tags.default' => function ($page, $site, $kirby) {
     return [
         'title' => 'Site Name',
         'meta' => [ /* meta tags */ ],
@@ -130,7 +130,7 @@ It accepts an array containing any or all of the following keys: `title`, `meta`
 This option allows you to define a template specific set of meta tags. It must return an array where each key corresponds to the template name you are targeting.
 
 ```php
-'pedroborges.meta-tags.templates' => function ($page, $site) {
+'pedroborges.meta-tags.templates' => function ($page, $site, $kirby) {
     return [
         'article' => [ /* tags groups */ ],
         'about' => [ /* tags groups */ ],
@@ -244,7 +244,7 @@ Where you can define [Open Graph](http://ogp.me) `<meta>` elements.
 Of course you can use Open Graph [structured objects](http://ogp.me/#structured). Let's see a blog post example:
 
 ```php
-'pedroborges.meta-tags.templates' => function ($page, $site) {
+'pedroborges.meta-tags.templates' => function ($page, $site, $kirby) {
     return [
         'article' => [ // template name
             'og' => [  // tags group name
@@ -257,7 +257,7 @@ Of course you can use Open Graph [structured objects](http://ogp.me/#structured)
                 ],
                 'namespace:image' => function(Page $page) {
                     $image = $page->cover()->toFile();
-    
+
                     return [
                         'image' => $image->url(),
                         'height' => $image->height(),
