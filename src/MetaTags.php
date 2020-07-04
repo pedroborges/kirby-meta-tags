@@ -42,8 +42,8 @@ class MetaTags
         ]);
 
         $this->page = $page;
-        $this->data = is_callable($default) ? $default($page, site()) : $default;
-        $templates = is_callable($templates) ? $templates($page, site()) : $templates;
+        $this->data = is_callable($default) ? $default($page, site(), kirby()) : $default;
+        $templates = is_callable($templates) ? $templates($page, site(), kirby()) : $templates;
 
         if (! is_array($this->data)) {
             throw new Exception('Option "pedroborges.meta-tags.default" must return an array');
