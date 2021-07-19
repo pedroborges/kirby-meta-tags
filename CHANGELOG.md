@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2021-07-19
+### Fixed
+- Instance cache. It now caches one instance per page.
+- Duplicate tags.
+- Wrong alternate language links.
+
 ## [2.0.2] - 2019-02-22
 ### Fixed
 - Exception thrown when `Kirby\Cms\Page` is passed to `metaTags()`.
