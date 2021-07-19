@@ -12,7 +12,7 @@ class MetaTags
 {
     public $tags;
 
-    protected static $instance = null;
+    protected static $instances = [];
 
     protected $indentation;
     protected $order;
@@ -59,7 +59,7 @@ class MetaTags
 
         $this->addTagsFromTemplate();
 
-        static::$instance = $this;
+        static::$instances[$page->id()] = $this;
     }
 
     /**
@@ -71,9 +71,7 @@ class MetaTags
     */
     public static function instance($page)
     {
-        return static::$instance = is_null(static::$instance)
-            ? new static($page)
-            : static::$instance;
+        return static::$instances[$page->id()] ?? new static($page);
     }
 
     public function render($groups = null)
