@@ -186,11 +186,11 @@ This tag group is used to render HTML `<link>` elements. It takes an `array` of 
       ['href' => url('assets/images/icons/favicon-192.png'), 'sizes' => '192x192', 'type' =>'image/png']
     ],
     'canonical' => $page->url(),
-    'alternate' => function () {
+    'alternate' => function ($page) {
         $locales = [];
 
-        foreach ($site->languages() as $language) {
-            if ($language->code() == $site->language()) continue;
+        foreach (kirby()->languages() as $language) {
+            if ($language->code() == kirby()->language()) continue;
 
             $locales[] = [
                 'hreflang' => $language->code(),
