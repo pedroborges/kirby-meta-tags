@@ -377,7 +377,7 @@ Use this tag group to add [JSON Linked Data](https://json-ld.org) schemas to you
 </p></details>
 
 ## Change Log
-All notable changes to this project will be documented at: <https://github.com/pedroborges/kirby-meta-tags/blob/master/changelog.md>
+All notable changes to this project will be documented at: <https://github.com/pedroborges/kirby-meta-tags/blob/master/CHANGELOG.md>
 
 ## License
 The Meta Tags plugin is open-sourced software licensed under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
