@@ -53,8 +53,8 @@ class MetaTags
             throw new Exception('Option "pedroborges.meta-tags.templates" must return an array');
         }
 
-        if (isset($templates[$page->template()->name()])) {
-            $this->data = A::merge($this->data, $templates[$page->template()->name()]);
+        if (isset($templates[$page->intendedTemplate()->name()])) {
+            $this->data = A::merge($this->data, $templates[$page->intendedTemplate()->name()]);
         }
 
         $this->addTagsFromTemplate();
