@@ -17,6 +17,7 @@ class MetaTags
     protected $indentation;
     protected $order;
     protected $page;
+    protected $data;
 
     public function __construct(Page $page)
     {
